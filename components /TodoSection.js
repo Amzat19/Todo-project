@@ -1,53 +1,71 @@
-import { faPencil } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import CustomCheckBox from '../styles/CustomCheckboxStyles'
-import Image from 'next/image'
 import TodoSectionStyles from "../styles/TodoSectionStyles"
-import { useState } from 'react'
+import Todos from "../components /Todos"
+import { ACTIONS } from "../lib/action";
+import { useActiveButtonContext, useAllContext, useActiveContext, useCompletedContext } from "../lib/Context";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
-const TodoSection = ({ data, deleteTodo, editTodo }) => {
-    const [edit, setEdit] = useState(false);
+const TodoSection = ({ todoList, dispatch }) => {
+  const activeButton = useActiveButtonContext();
+  const showAllTodo = useAllContext();
+  const showCompletedTodo = useCompletedContext();
+  const showActiveTodo = useActiveContext();
+  
+  const actions = () => {
+    if(activeButton.all){
+      return todoList
+    } else if(activeButton.completed){
+      return todoList.filter((todo) => todo.completed === true)
+    } else {
+      return todoList.filter((todo) => todo.completed === false)
+    }
+  }
 
-    const handleEdit = () => {
-        setEdit(!edit);
-    } ;
+  const todosLeft = actions().filter((todo) => todo.completed === false).length;
+
+  const handleOnDrag = (result) => {
+    dispatch({ type: ACTIONS.HANDLE_DRAG, payload: { result: result}})
+  }
+
     return (
         <TodoSectionStyles>
-          <article>
-            {
-              data && data.map((todo, index) => {
-                const handleEditSubmit = (e) => {
-                    e.preventDefault();
-                    editTodo(todo.id, e.target.edit.value);
-                    setEdit(!edit);
-                }
-                return (
-                        <div key={index} className="single-todo">
-                            {
-                                edit ? (
-                                    <form onSubmit={handleEditSubmit}>
-                                        <input placeholder="Update todo" name="edit" defaultValue={todo.title} />
-                                    </form>
-                                ) : (
-                                    <div>
-                                        <CustomCheckBox>
-                                            <input type='checkbox' name='completed-todo' id='completed-todo'/>
-                                            <label htmlFor='create-todo'><Image src='/images/icon-check.svg' width='10px' height="10px" alt="Tick logo"/></label>
-                                            <span>{todo.title}</span>
-                                        </CustomCheckBox>
-                                        <div className='actions'>
-                                            <FontAwesomeIcon icon={faPencil} onClick={handleEdit}/>
-                                            <Image src='/images/icon-cross.svg' width='15px' height='15px' alt="Delete buttton" className='delete' onClick={() => deleteTodo(todo.id)}/>
-                                        </div>
-                                    </div>    
-                                )
-                            }
-                        </div>
+          <DragDropContext onDragEnd={handleOnDrag}>
+            <article>
+              <Droppable droppableId="todos">
+                { (provided) => (
+                  <div className="todos" {...provided.droppableProps} ref={provided.innerRef}>
+                    {
+                      todoList && actions().map((todo, index) => {
+                        return (
+                          <Draggable key={index} draggableId={""+index} index={index}>
+                            {(provided) => {
+                              return (
+                                <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                                <Todos todo={todo} dispatch={dispatch} index={index}/>
+                                </div>
+                              )
+                            }}
+                          </Draggable>
+  
                         )
-            }
-    ) 
-}
-          </article>
+                      }) 
+                    }
+                    {provided.placeholder}
+                  </div>      
+                )}
+              </Droppable>
+              <div className="todo-info">
+                <span>{todosLeft} items left</span>
+                <div>
+                  <button type="button" onClick={showAllTodo} className={activeButton.all === true ? "all-active": ""}>All</button>
+                  <button type="button" onClick={showActiveTodo} className={activeButton.active === true ? "active-active": ""}>Active</button>
+                  <button type="button" onClick={showCompletedTodo} className={activeButton.completed === true ? "completed-active": ""}>Completed</button>
+                </div>
+                <button onClick={() => dispatch({ type: ACTIONS.CLEAR_COMPLETED_TODO})}>Clear Completed</button>
+              </div>
+            </article>
+            
+            <p>Drag and drop to reorder list</p>
+          </DragDropContext>
         </TodoSectionStyles>
     )
 }

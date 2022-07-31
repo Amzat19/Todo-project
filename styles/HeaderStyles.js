@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const HeaderStyles = styled.header`
-background-image: url('/images/bg-mobile-light.jpg');
+background-image: url(${( props ) => props.bg });
 height: 200px;
 
 .top-header {
@@ -12,6 +12,10 @@ height: 200px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  img:hover {
+    cursor: pointer;
+  }
 
   .todo {
     color: white;
@@ -27,19 +31,46 @@ height: 200px;
     background-color: white;
     height: 50px;
     border-radius: 5px;
+    background-color: ${({ theme }) => theme.cardColor};
 
-    input[type="text"] {
-      border: none;
-      font-weight: 400;
-      padding-left: 10px;
-    }
+    form {
+      width: 60vw;
 
-    input[type="text"]:focus {
-      border: white;
+      input[type="text"] {
+        border: none;
+        font-weight: 400;
+        padding-left: 10px;
+        width: 70%;
+        max-width: 400px;
+        color: ${({ theme }) => theme.inputColor};
+        caret-color: blue;
+        background-color: ${({ theme }) => theme.cardColor};
+      }
+
+      input::placeholder {
+        color: ${({ theme }) => theme.checkedTodo}
+      }
+
+      input[type="text"]:focus {
+        border: white;
+      }
+
     }
     
   }
 
+  @media(min-width: 768px){
+    background-image: url('/images/bg-desktop-light.jpg');
+    width: 100vw;
+    
+    .top-header {
+      width: 450px;
+    }
+
+    .create-todo-box {
+      width: 450px;
+    }
+  }
 `;
 
 export default HeaderStyles;

@@ -16,7 +16,7 @@ input[type="checkbox"] {
   border-radius: 20px;
   outline: none;
   transition-duration: 0.3s;
-  background-color: #FFFFFF;
+  background-color: ${({ theme }) => theme.cardColor};
   cursor: pointer;
 }
 
@@ -28,9 +28,13 @@ input:checked {
 input:checked ~ label{
   position: absolute;
   display: block;
-  left: 7px;
-  top: 7px;
+  left: 17px;
+  top: 25px;
   height: 0px;
+}
+
+input:checked ~ label:hover {
+  cursor: pointer;
 }
 
 label {
