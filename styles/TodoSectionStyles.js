@@ -55,8 +55,9 @@ article {
 
       .actions{
         .delete, .edit {
+          color: white;
           path {
-            fill: white;
+            fill: ${({ theme }) => theme.iconColor};
           }
         }
         .delete:hover, .edit:hover {

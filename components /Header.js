@@ -17,9 +17,11 @@ const Header = ({ theme, toggleTheme, dispatch }) => {
     setNewTodoValue('')
   }
 
-  const bg = theme === 'light' ? '/images/bg-mobile-light.jpg' :'/images/bg-mobile-dark.jpg';
+  const mobileBg = theme === 'light' ? '/images/bg-mobile-light.jpg' :'/images/bg-mobile-dark.jpg';
+  const desktopBg  = theme === 'light' ? '/images/bg-desktop-light.jpg' : '/images/bg-desktop-dark.jpg';
+
     return (
-        <HeaderStyles bg={bg}>
+        <HeaderStyles mobileBg={mobileBg} desktopBg={desktopBg}>
           <div className='top-header'>
             <h1 className='todo'>TODO</h1>
             { theme === 'light' ? (

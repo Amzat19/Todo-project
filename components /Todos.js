@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ACTIONS } from '../lib/action'
+import { faX } from '@fortawesome/free-solid-svg-icons'
 
 const Todos = ({ todo, dispatch }) => {
     const [edit, setEdit] = useState(false);
@@ -43,7 +44,7 @@ const Todos = ({ todo, dispatch }) => {
                         </CustomCheckBox>
                         <div className='actions'>
                             <FontAwesomeIcon icon={faPencil} onClick={handleEdit} className="edit"/>
-                            <Image src='/images/icon-cross.svg' width='15px' height='15px' alt="Delete buttton" className='delete' onClick={deleteTodo}/>
+                            <FontAwesomeIcon icon={faX} className='delete' onClick={deleteTodo}/>
                     </div>
                     </div>    
                 )

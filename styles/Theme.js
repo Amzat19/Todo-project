@@ -4,7 +4,8 @@ export const lightTheme = {
     cardColor: 'white',
     inputPlaceholderColor: 'var(--very-dark-grayish-blue)',
     checkedTodo: 'var(--dark-grayish-blue)',
-    inputColor: 'black'
+    inputColor: 'black',
+    iconColor: 'black'
 };
 
 export const darkTheme = {
@@ -13,5 +14,6 @@ export const darkTheme = {
     cardColor: 'var(--Very-Dark-Grayish-Blue)',
     inputPlaceholderColor: 'var(--Light-Grayish-Blue)',
     checkedTodo: 'var(--dark-grayish-blue)',
-    inputColor: 'white'
+    inputColor: 'white',
+    iconColor: 'white'
 };

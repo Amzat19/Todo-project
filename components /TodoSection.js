@@ -23,8 +23,10 @@ const TodoSection = ({ todoList, dispatch }) => {
   const todosLeft = actions().filter((todo) => todo.completed === false).length;
 
   const handleOnDrag = (result) => {
-    dispatch({ type: ACTIONS.HANDLE_DRAG, payload: { result: result}})
+    dispatch({ type: ACTIONS.HANDLE_DRAG, payload: { result: result }})
   }
+
+  console.log(actions());
 
     return (
         <TodoSectionStyles>
@@ -38,6 +40,7 @@ const TodoSection = ({ todoList, dispatch }) => {
                         return (
                           <Draggable key={index} draggableId={""+index} index={index}>
                             {(provided) => {
+                              console.log(actions());
                               return (
                                 <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                                 <Todos todo={todo} dispatch={dispatch} index={index}/>

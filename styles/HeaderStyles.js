@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const HeaderStyles = styled.header`
-background-image: url(${( props ) => props.bg });
+background-image: url(${( props ) => props.mobileBg });
 height: 200px;
 
 .top-header {
@@ -60,7 +60,7 @@ height: 200px;
   }
 
   @media(min-width: 768px){
-    background-image: url('/images/bg-desktop-light.jpg');
+    background-image: url(${( props ) => props.desktopBg});
     width: 100vw;
     
     .top-header {
